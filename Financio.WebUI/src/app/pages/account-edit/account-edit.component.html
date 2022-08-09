@@ -1,0 +1,80 @@
+<p-toast></p-toast>
+
+<div class="flex flex-column gap-3">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <span class="flex align-items-center ml-3">
+                <p-avatar icon="pi pi-pencil" shape="circle" size="large"
+                    [style]="{'background-color':'#2196F3', 'color': '#ffffff'}">
+                </p-avatar>
+                <h2 class="m-2">Account Edit</h2>
+            </span>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton label="Cancel" icon="pi pi-times" class="p-button-secondary mr-2" (click)="onCancel()"></button>
+            <button pButton label="Save" icon="pi pi-save" class="p-button-success mr-2" (click)="onSave()"></button>
+        </ng-template>
+    </p-toolbar>
+    
+    <app-navigation-history></app-navigation-history>
+    
+    <p-card *ngIf="account">
+        <!-- <ng-template pTemplate="header">
+            <span class="flex align-items-center ml-3 pt-3">
+                <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded"></button>
+                <h2 class="m-2">Account Edit</h2>
+            </span>
+        </ng-template> -->
+        <ng-template pTemplate="content">
+            <div class="flex flex-wrap">
+                <app-account-details [account]="account" class="mr-5"></app-account-details>
+    
+                <p-table [value]="getAllAccountReferences(account)" [rowHover]="true" responsiveLayout="scroll">
+                    <ng-template pTemplate="caption">
+                        Account References
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="date" pResizableColumn style="width: 10rem">Date <p-sortIcon field="date">
+                                </p-sortIcon>
+                            </th>
+                            <th pSortableColumn="accounts" pResizableColumn>Accounts <p-sortIcon field="accounts">
+                                </p-sortIcon>
+                            </th>
+                            <!-- TODO: Sort per debit value or credit value -->
+                            <th pSortableColumn="debit" pResizableColumn>Debit <p-sortIcon field="value"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="credit" pResizableColumn>Credit <p-sortIcon field="value"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-accountRef>
+                        <tr>
+                            <td>{{ accountRef.date.toLocaleDateString() }}</td>
+                            <td>{{ accountRef.getAccountListAsString() }}</td>
+                            <td>{{ accountRef.side === 'Debit' ? accountRef.value : '' }}</td>
+                            <td>{{ accountRef.side === 'Credit' ? accountRef.value : '' }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <div class="flex align-items-center justify-content-between">
+                            <p>{{ account.debitSideAccountings.length + account.creditSideAccountings.length }} account
+                                referneces</p>
+                            <p>{{ account.getSaldo() }}</p>
+                        </div>
+                    </ng-template>
+                </p-table>
+                <div>
+                    <button pButton icon="pi pi-plus" label="Add Debit" (click)="onAddBooking('debit')"></button>
+                    <button pButton icon="pi pi-plus" label="Add Credit" (click)="onAddBooking('credit')"></button>
+                </div>
+            </div>
+        </ng-template>
+    </p-card>
+    
+    <p-card *ngIf="account === undefined">
+        <ng-template pTemplate="content">
+            There is no Account with number {{ accountNumber }}
+        </ng-template>
+    </p-card>
+</div>

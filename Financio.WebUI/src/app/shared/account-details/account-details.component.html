@@ -1,0 +1,44 @@
+<div *ngIf="account">
+    <form #form="ngForm" class="flex">
+        <div class="field m-3">
+            <span class="p-float-label p-input-icon-left">
+                <i class="pi pi-tag"></i>
+                <input type="text" id="number" name="number" pInputText [(ngModel)]="account.number"
+                        [class.ng-invalid]="number.touched && !number.valid"
+                        [class.ng-dirty]="number.touched && !number.valid"
+                        #number="ngModel" required minlength="4" maxlength="4" pattern="[0-9]*"/>
+                <label for="number">Account Number</label>
+            </span>
+            <div class="p-fluid"
+                    *ngIf="(number.touched || number.dirty) && number.invalid">
+                <p-message *ngIf="number.errors?.['required']" severity="error" text="number is required"
+                            styleClass="my-1"></p-message>
+                <p-message *ngIf="number.errors?.['minlength'] || number.errors?.['maxlength']"
+                            severity="error" text="number must include 4 digits" styleClass="my-1"></p-message>
+                <p-message *ngIf="number.errors?.['pattern']" severity="error"
+                             text="number may only use digits" styleClass="my-1"></p-message>
+            </div>
+        </div>
+        <div class="field m-3">
+            <span class="p-float-label p-input-icon-left">
+                <i class="pi pi-user"></i>
+                <input type="text" id="name" name="name" pInputText [(ngModel)]="account.name"
+                        [class.ng-invalid]="name.touched && !name.valid"
+                        [class.ng-dirty]="name.touched && !name.valid"
+                        #name="ngModel" required />
+                <label for="name">Account Name</label>
+            </span>
+            <div class="p-fluid" *ngIf="(name.touched || name.dirty) && name.invalid">
+                <p-message *ngIf="name.errors?.['required']" severity="error" text="Name is required"></p-message>
+            </div>
+        </div>
+    </form>
+    <div>
+        <div class="p-float-label p-input-icon-left m-3">
+            <i class="pi pi-list"></i>
+            <textarea type="text" id="description" pInputTextarea [(ngModel)]="account.description"
+                class="w-30rem h-10rem"></textarea>
+            <label for="description">Description</label>
+        </div>
+    </div>
+</div>

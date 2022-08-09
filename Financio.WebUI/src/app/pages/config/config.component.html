@@ -1,0 +1,17 @@
+<div class="flex flex-column gap-3">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <span class="flex align-items-center mx-3">
+                <p-avatar icon="pi pi-cog" shape="circle" size="large"
+                    [style]="{'background-color':'#2196F3', 'color': '#ffffff'}"></p-avatar>
+                <h2 class="m-2">Config</h2>
+            </span>
+        </ng-template>
+        <ng-template pTemplate="right"></ng-template>
+    </p-toolbar>
+    
+    <p-card>
+        <span>Theme</span>
+        <p-dropdown [options]="themes" [(ngModel)]="selectedTheme" (onChange)="changeTheme()"></p-dropdown>
+    </p-card>
+</div>

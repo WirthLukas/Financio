@@ -1,0 +1,16 @@
+// .layout-wrapper {
+//     min-height: 100vh;
+// }
+
+.layout-sidebar {
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    z-index: 999;
+}
+
+.layout-main {
+    // padding: 1rem 2rem 2rem 4rem;
+    margin-left: 200px;
+    padding: 0 20px;
+}

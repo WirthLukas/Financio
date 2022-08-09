@@ -1,0 +1,87 @@
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '450px'}" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+<p-dialog header="Create Account" [visible]="accountDialog" [modal]="true" [resizable]="true" [maximizable]="true"
+    [closeOnEscape]="true">
+    <ng-template pTemplate="content">
+        <app-account-details [account]="newAccount"></app-account-details>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton label="Save" icon="pi pi-check" class="p-button-text" (click)="saveAccount()"></button>
+    </ng-template>
+</p-dialog>
+
+<div class="flex flex-column gap-3">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <span class="flex align-items-center mx-3">
+                <p-avatar icon="pi pi-list" shape="circle" size="large"
+                    [style]="{'background-color':'#2196F3', 'color': '#ffffff'}">
+                </p-avatar>
+                <h2 class="m-2">Account Overview</h2>
+            </span>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="onNewAccount()"></button>
+            <button pButton label="Edit" icon="pi pi-pencil" class="mr-2" [disabled]="!currentAccount"
+                (click)="onEditAccount()">
+            </button>
+            <button pButton label="Delete" icon="pi pi-trash" class="mr-2 p-button-danger" [disabled]="!currentAccount"
+                (click)="onDeleteAccount()">
+            </button>
+        </ng-template>
+    </p-toolbar>
+
+    <app-navigation-history></app-navigation-history>
+
+    <p-card>
+        <p-table [value]="(accounts$ | async)!" [resizableColumns]="true"
+            styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll"
+            selectionMode="single" [(selection)]="currentAccount" dataKey="name"
+            (onRowSelect)="onAccountSelect($event.data)" (onRowUnselect)="onAccountUnselect()">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h1>Accounts</h1>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [(ngModel)]="accountName" (ngModelChange)="searchName()"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="number" pResizableColumn style="width: 10rem">Number <p-sortIcon field="number">
+                        </p-sortIcon>
+                    </th>
+                    <th pSortableColumn="name" pResizableColumn>Name <p-sortIcon field="name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="desc" pResizableColumn>Description <p-sortIcon field="desc"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="debit" pResizableColumn>Debit<p-sortIcon field="debit"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="credit" pResizableColumn>Credit<p-sortIcon field="credit"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="saldo" pResizableColumn>Saldo<p-sortIcon field="saldo"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-account>
+                <tr [pSelectableRow]="account" (dblclick)="onAccountSelect(account); onEditAccount()">
+                    <td>{{ account.number }}</td>
+                    <td>{{ account.name }}</td>
+                    <td>{{ account.description }}</td>
+                    <td>{{ account.getSumOfDebit() }}</td>
+                    <td>{{ account.getSumOfCredit() }}</td>
+                    <td>{{ account.getSaldo() }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    In total there are {{ (accounts$ | async)?.length ?? 0 }} accounts.
+                </div>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>

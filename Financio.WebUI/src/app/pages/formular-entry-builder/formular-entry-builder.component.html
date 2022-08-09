@@ -1,0 +1,43 @@
+<div class="flex flex-column gap-3">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <span class="flex align-items-center mx-3">
+                <p-avatar icon="pi pi-book" shape="circle" size="large"
+                    [style]="{'background-color':'#2196F3', 'color': '#ffffff'}"></p-avatar>
+                <h2 class="m-2">Booking Builder</h2>
+            </span>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton label="Cancel" icon="pi pi-times" class="p-button-secondary mr-2" (click)="onCancel()"></button>
+            <button pButton label="Save" icon="pi pi-save" class="p-button-success mr-2" (click)="onSave()"
+                [disabled]="!isValid"></button>
+        </ng-template>
+    </p-toolbar>
+    
+    <app-navigation-history></app-navigation-history>
+    
+    <p-card>
+        <form class="p-formgrid grid" #form="ngForm">
+            <div class="field col-2">
+                <label for="date">Date</label>
+                <p-calendar name="date" inputId="date" [(ngModel)]="date" [showIcon]="true" dateFormat="dd.mm.yy"
+                    #fedate="ngModel" [showButtonBar]="true" [required]="true"
+                    [class.ng-invalid]="fedate.touched && !fedate.valid" [class.ng-dirty]="fedate.touched && !fedate.valid">
+                </p-calendar>
+                <div class="p-fluid" *ngIf="(fedate.touched || fedate.dirty) && fedate.invalid">
+                    <p-message *ngIf="fedate.errors?.['required']" severity="error" text="date is required"
+                        styleClass="my-1">
+                    </p-message>
+                </div>
+            </div>
+            <div class="field col p-fluid">
+                <label for="notes">Notes</label>
+                <input pInputText id="notes" name="notes" [(ngModel)]="notes" />
+            </div>
+        </form>
+        <p-message *ngIf="!sumOfValuesAreEqual" severity="error" text="Sum of Debit and Sum of Credit must be equal"
+            styleClass=""></p-message>
+        <app-fe-booking-manager title="Debit" side="debit" [(bookings)]="debitSideBookings"></app-fe-booking-manager>
+        <app-fe-booking-manager title="Credit" side="credit" [(bookings)]="creditSideBookings"></app-fe-booking-manager>
+    </p-card>
+</div>

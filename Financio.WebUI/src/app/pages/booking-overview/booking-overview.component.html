@@ -1,0 +1,41 @@
+<div class="flex flex-column gap-3">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <span class="flex align-items-center mx-3">
+                <p-avatar icon="pi pi-book" shape="circle" size="large"
+                    [style]="{'background-color':'#2196F3', 'color': '#ffffff'}"></p-avatar>
+                <h2 class="m-2">Booking Overview</h2>
+            </span>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="onNewBooking()"></button>
+        </ng-template>
+    </p-toolbar>
+    
+    <app-navigation-history></app-navigation-history>
+    
+    <p-card>
+        <p-table [value]="(bookings$ | async)!" [rowHover]="true" styleClass="p-datatable-striped">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Date</th>
+                    <th>Text</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-booking>
+                <tr>
+                    <td>{{ booking.date | date:'d.M.yyyy' }}</td>
+                    <td>{{ booking.notes }}</td>
+                    <td>
+                        <p class="m-0" *ngFor="let account of booking.getDebitAsString()">{{ account }}</p>
+                    </td>
+                    <td>
+                        <p class="m-0" *ngFor="let account of booking.getCreditAsString()">{{ account }}</p>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>

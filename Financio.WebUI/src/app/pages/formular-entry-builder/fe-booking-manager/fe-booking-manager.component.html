@@ -1,0 +1,77 @@
+<div class="flex align-items-center">
+    <h1>{{ title }}</h1>
+    <button pButton class="ml-3 mr-2 p-button-success" icon="pi pi-plus" label="Add" (click)="addBooking()"></button>
+    <button pButton class="p-button-danger" icon="pi pi-trash" label="Remove" (click)="deleteBookings()"
+     [disabled]="selectedBookings.length === 0"></button>
+</div>
+<form #form="ngForm">
+    <!-- FormBindings does not work with p-table properly. OnAdding a new value, all ngModel bindings display the values of the added value
+         Therefore, EditableColumns are used as a work around-->
+    <p-table [value]="bookings" [(selection)]="selectedBookings" responsiveLayout="scroll" dataKey="account.name" styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>
+                    <!-- <p-tableHeaderCheckbox [disabled]="true"></p-tableHeaderCheckbox> -->
+                </th>
+                <th>Number / Name</th>
+                <th>Name</th>
+                <th>Saldo</th>
+                <th>Value</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-booking>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="booking" [disabled]="isNotCheckable(booking)"></p-tableCheckbox>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <!-- appendTo="body" da sonst der dropdown overflow hinter der Table gerendert wurde: https://github.com/primefaces/primeng/issues/1494 -->
+                            <p-autoComplete name="debitAccountName" appendTo="body" #nameOrNumber="ngModel" [ngModel]="booking.account"
+                                [suggestions]="(accounts$ | async)!" (completeMethod)="accountSearch($event.query)"
+                                (onSelect)="onSelect($event, booking)" [dropdown]="true" field="number" [required]="true"
+                                [class.ng-invalid]="nameOrNumber.touched && !nameOrNumber.valid"
+                                [class.ng-dirty]="nameOrNumber.touched && !nameOrNumber.valid">
+                                <ng-template pTemplate="item" let-account>
+                                    <span>{{ account.number }} {{ account.name }}</span>
+                                </ng-template>
+                            </p-autoComplete>
+                            <div class="p-fluid" *ngIf="(nameOrNumber.touched || nameOrNumber.dirty) && nameOrNumber.invalid">
+                                <p-message *ngIf="nameOrNumber.errors?.['required']" severity="error" text="account must be selected"
+                                    styleClass="my-1">
+                                </p-message>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ booking.account?.number ?? "Click to select account" }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    {{ booking.account?.name ?? "" }}
+                </td>
+                <td>
+                    {{ booking.account?.getSaldo() ?? "" }}
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber name="value" mode="currency" currency="EUR" [(ngModel)]="booking.value" [min]="0.01" [showButtons]="true"
+                                [step]="10">
+                            </p-inputNumber>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ booking.value }}
+                        </ng-template>
+                    </p-cellEditor>
+                    
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            In Total {{ sumOfValues }} €
+        </ng-template>
+    </p-table>
+</form>
+
