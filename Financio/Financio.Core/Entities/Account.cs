@@ -1,24 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using LeoBase.Backend.Contracts.Entities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
 namespace Financio.Core.Entities;
 
-public class Account
+public class Account : IVersionable<byte[]>, IIdentifiable<string>
 {
     public static readonly Account Empty = new ();
 
-    public string Number { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    [NotMapped] public string Id { get => Number; set => Number = value; }
+    [Key, MaxLength(4)] public string Number { get; set; } = string.Empty;
+    [MaxLength(200)] public string Name { get; set; } = string.Empty;
+    [MaxLength(500)] public string? Description { get; set; }
 
-    public IList<AccountReference> DebitSideAccountings { get; set; } = new List<AccountReference>();
-    public IList<AccountReference> CreditSideAccountings { get; set; } = new List<AccountReference>();
+    [Timestamp] public byte[] RowVersion { get; set; } = Array.Empty<byte>();
 
-    internal void AddAccounting(AccountReference ar)
+    [NotMapped] public IList<AccountReference> DebitSideAccountings { get; set; } = new List<AccountReference>();
+    [NotMapped] public IList<AccountReference> CreditSideAccountings { get; set; } = new List<AccountReference>();
+
+    internal void AddAccounting(AccountReference accountReference)
     {
-        var list = ar.Side == AccountSide.Debit ? DebitSideAccountings : CreditSideAccountings;
-        list.Add(ar);
+        var list = accountReference.Side == AccountSide.Debit ? DebitSideAccountings : CreditSideAccountings;
+        list.Add(accountReference);
     }
 
     public string ToTableString()

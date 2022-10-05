@@ -1,9 +1,10 @@
-﻿using System;
+﻿using LeoBase.Backend.Common;
+using System;
 using System.Linq;
 
 namespace Financio.Core.Entities;
 
-public class AccountReference
+public class AccountReference : EntityObject
 {
     public DateTime Date { get; set; }
     public Account Account { get; set; } = Account.Empty; 

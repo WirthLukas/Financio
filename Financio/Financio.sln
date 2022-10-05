@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Financio.Core", "Financio.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Financio.Console", "Financio.Console\Financio.Console.csproj", "{B501C2C7-1918-48EB-872B-D5B1E7CF494E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financio.WebApi", "Financio.WebApi\Financio.WebApi.csproj", "{98814DF7-DC1E-4CD2-BA74-71850BC72647}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Financio.WebApi", "Financio.WebApi\Financio.WebApi.csproj", "{98814DF7-DC1E-4CD2-BA74-71850BC72647}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeoBase.Backend", "LeoBase.Backend\LeoBase.Backend.csproj", "{C4B32F92-D3AE-48A6-B010-4A28B60C7A32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financio.Persistence", "Financio.Persistence\Financio.Persistence.csproj", "{8A733856-4009-4BE8-BC36-4135680B023C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{98814DF7-DC1E-4CD2-BA74-71850BC72647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98814DF7-DC1E-4CD2-BA74-71850BC72647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98814DF7-DC1E-4CD2-BA74-71850BC72647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4B32F92-D3AE-48A6-B010-4A28B60C7A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4B32F92-D3AE-48A6-B010-4A28B60C7A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4B32F92-D3AE-48A6-B010-4A28B60C7A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4B32F92-D3AE-48A6-B010-4A28B60C7A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A733856-4009-4BE8-BC36-4135680B023C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A733856-4009-4BE8-BC36-4135680B023C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A733856-4009-4BE8-BC36-4135680B023C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A733856-4009-4BE8-BC36-4135680B023C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
