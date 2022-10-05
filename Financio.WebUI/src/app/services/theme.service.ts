@@ -8,21 +8,25 @@ export class ThemeService {
     private _theme: string | null = null;
 
     get theme(): string {
-        let themeLink = this.document.getElementById(
-            'app-theme'
-        ) as HTMLLinkElement | null;
+        if (this._theme === null) {
+            let themeLink = this.document.getElementById(
+                'app-theme'
+            ) as HTMLLinkElement | null;
 
-        if (themeLink === null) {
-            themeLink = this.createThemeLink('lara-light-blue');
+            if (themeLink === null) {
+                themeLink = this.createThemeLink('lara-light-blue');
+            }
+
+            const splittedUrl = themeLink.href.split('/');
+            this._theme = splittedUrl[splittedUrl.length - 1].split('.')[0];
         }
 
-        const splittedUrl = themeLink.href.split('/');
-        return splittedUrl[splittedUrl.length - 1].split('.')[0];
+        return this._theme;
     }
 
     constructor(@Inject(DOCUMENT) private document: Document) {}
 
-    switchTheme(theme: string) {
+    public switchTheme(theme: string) {
         const themeLink = this.document.getElementById(
             'app-theme'
         ) as HTMLLinkElement | null;
