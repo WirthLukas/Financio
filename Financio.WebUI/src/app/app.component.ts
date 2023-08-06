@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { AccountService } from './services/account.service';
+import { InMemoryAccountService } from './services/in-memory-account.service';
 import { ThemeService } from './services/theme.service';
 import { NavigationService } from './services/navigation.service';
 
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     public menuItems: MenuItem[] = [];
 
     constructor(
-        private accountService: AccountService,
+        private accountService: InMemoryAccountService,
         private themeService: ThemeService,
         private navigationService: NavigationService
     ) {}

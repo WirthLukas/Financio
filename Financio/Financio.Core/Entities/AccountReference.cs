@@ -1,5 +1,6 @@
 ﻿using LeoBase.Backend.Common;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Financio.Core.Entities;
@@ -7,10 +8,13 @@ namespace Financio.Core.Entities;
 public class AccountReference : EntityObject
 {
     public DateTime Date { get; set; }
-    public Account Account { get; set; } = Account.Empty; 
-    public Account[] CounterAccounts { get; set; } = Array.Empty<Account>();
     public double Value { get; set; }
     public AccountSide Side { get; set; }
+
+    public string AccountNumber { get; set; } = string.Empty;
+    public Account Account { get; set; } = Account.Empty; 
+    
+    public Account[] CounterAccounts { get; set; } = Array.Empty<Account>();
 
     public string GetAccountsString() => CounterAccounts
             .Select(acc => $"{acc.Number} {acc.Name}")

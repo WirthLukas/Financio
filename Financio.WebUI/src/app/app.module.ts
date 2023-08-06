@@ -10,6 +10,7 @@ import { FormularEntryBuilderModule } from './pages/formular-entry-builder/formu
 import { MenuModule } from 'primeng/menu';
 import { BookingOverviewModule } from './pages/booking-overview/booking-overview.module';
 import { ConfigModule } from './pages/config/config.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [AppComponent],
@@ -24,6 +25,7 @@ import { ConfigModule } from './pages/config/config.module';
         MenuModule,
         BookingOverviewModule,
         ConfigModule,
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

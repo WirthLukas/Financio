@@ -9,7 +9,8 @@ export class Account {
     ) {}
 
     public getSumOfDebit(): number {
-        return this.debitSideAccountings.length === 0
+        return this.debitSideAccountings === null ||
+            this.debitSideAccountings.length === 0
             ? 0
             : this.debitSideAccountings
                   .map((a) => a.value)
@@ -17,7 +18,8 @@ export class Account {
     }
 
     public getSumOfCredit(): number {
-        return this.creditSideAccountings.length === 0
+        return this.creditSideAccountings === null ||
+            this.creditSideAccountings.length === 0
             ? 0
             : this.creditSideAccountings
                   .map((a) => a.value)

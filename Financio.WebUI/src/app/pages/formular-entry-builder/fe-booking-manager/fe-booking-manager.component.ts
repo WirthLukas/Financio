@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { AccountService } from 'src/app/services/account.service';
+import { InMemoryAccountService } from 'src/app/services/in-memory-account.service';
 import {
     Account,
     AccountSide,
@@ -34,7 +34,7 @@ export class FeBookingManagerComponent {
     public selectedBookings: FormularEntryBooking[] = [];
     public accounts$: Observable<Account[]> = null!;
 
-    constructor(private accountService: AccountService) {}
+    constructor(private accountService: InMemoryAccountService) {}
 
     public get isValid(): boolean {
         return this.form?.valid ?? true;

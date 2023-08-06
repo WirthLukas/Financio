@@ -12,20 +12,26 @@ public class Account : IVersionable<byte[]>, IIdentifiable<string>
 {
     public static readonly Account Empty = new ();
 
-    [NotMapped] public string Id { get => Number; set => Number = value; }
-    [Key, MaxLength(4)] public string Number { get; set; } = string.Empty;
-    [MaxLength(200)] public string Name { get; set; } = string.Empty;
-    [MaxLength(500)] public string? Description { get; set; }
+    public string Id { get => Number; set => Number = value; }
+    public string Number { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public byte[] RowVersion { get; set; } = Array.Empty<byte>();
 
-    [Timestamp] public byte[] RowVersion { get; set; } = Array.Empty<byte>();
 
-    [NotMapped] public IList<AccountReference> DebitSideAccountings { get; set; } = new List<AccountReference>();
-    [NotMapped] public IList<AccountReference> CreditSideAccountings { get; set; } = new List<AccountReference>();
+    public IList<AccountReference> References { get; set; } = new List<AccountReference> ();
+
+    public IList<AccountReference> CounterAccountReferences { get; set; } = new List <AccountReference> ();
+
+    //public IList<AccountReference> DebitSideAccountings { get; set; } = new List<AccountReference>();
+    //public IList<AccountReference> CreditSideAccountings { get; set; } = new List<AccountReference>();
 
     internal void AddAccounting(AccountReference accountReference)
     {
-        var list = accountReference.Side == AccountSide.Debit ? DebitSideAccountings : CreditSideAccountings;
-        list.Add(accountReference);
+        //var list = accountReference.Side == AccountSide.Debit ? DebitSideAccountings : CreditSideAccountings;
+        //list.Add(accountReference);
+        
+        References.Add(accountReference);
     }
 
     public string ToTableString()
@@ -36,20 +42,23 @@ public class Account : IVersionable<byte[]>, IIdentifiable<string>
         sb.AppendLine(title);
         sb.AppendLine(new string('-', title.Length));
 
-        foreach (var ar in DebitSideAccountings)
+        var debitSideAccountings = References.Where(r => r.Side == AccountSide.Debit).ToArray();
+        var creditSideAccountings = References.Where(r => r.Side == AccountSide.Credit).ToArray();
+
+        foreach (var ar in debitSideAccountings)
         {
             sb.AppendLine($"{ar.Date.ToShortDateString(),-10} {ar.GetAccountsString(),-20}| {ar.Value,-10} | ");
         }
 
-        foreach (var ar in CreditSideAccountings)
+        foreach (var ar in creditSideAccountings)
         {
             sb.AppendLine($"{ar.Date.ToShortDateString(),-10} {ar.GetAccountsString(),-20}| {"",-10} | {ar.Value,-10}");
         }
 
         sb.AppendLine(new string('-', title.Length));
 
-        var sumOfDebit = DebitSideAccountings.Sum(a => a.Value);
-        var sumOfCredit = CreditSideAccountings.Sum(a => a.Value);
+        var sumOfDebit = debitSideAccountings.Sum(a => a.Value);
+        var sumOfCredit = creditSideAccountings.Sum(a => a.Value);
         sb.AppendLine($"{"",30} | {sumOfDebit,-10} | {sumOfCredit,-10}");
 
         return sb.ToString();

@@ -16,11 +16,13 @@ public class UnitOfWork : IUnitOfWork
     private IDbContextTransaction? _transaction = null;
 
     public IAccountRepository Accounts { get; }
+    public IAccountReferenceRepository AccountReferences { get; }
 
     public UnitOfWork(DbContextOptions<ApplicationDbContext>? options = null)
     {
         _dbContext = new ApplicationDbContext(options ?? new DbContextOptions<ApplicationDbContext>());
         Accounts = new AccountRepository(_dbContext);
+        AccountReferences = new AccountReferenceRepository(_dbContext);
     }
 
     public async Task BeginTransactionAsync()
@@ -37,9 +39,7 @@ public class UnitOfWork : IUnitOfWork
     public Task RollbackAsync() => _transaction?.RollbackAsync() ?? Task.CompletedTask;
 
     public Task CreateDatabaseAsync() => _dbContext.Database.EnsureCreatedAsync();
-
     public Task DeleteDatabaseAsync() => _dbContext.Database.EnsureDeletedAsync();
-
     public Task MigrateDatabaseAsync() => _dbContext.Database.MigrateAsync();
 
     public Task<int> SaveChangesAsync()

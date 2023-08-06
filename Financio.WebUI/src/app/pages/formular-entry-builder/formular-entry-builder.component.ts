@@ -6,7 +6,7 @@ import {
     QueryList,
     ViewChild,
 } from '@angular/core';
-import { AccountService } from 'src/app/services/account.service';
+import { InMemoryAccountService } from 'src/app/services/in-memory-account.service';
 import { Observable, switchMap, Subscription } from 'rxjs';
 import { FormularEntryService } from '../../services/formular-entry.service';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
@@ -50,7 +50,7 @@ export class FormularEntryBuilderComponent implements OnInit, OnDestroy {
     private getAccountSubscritpion: Subscription = null!;
 
     constructor(
-        private accountService: AccountService,
+        private accountService: InMemoryAccountService,
         private formularEntryService: FormularEntryService,
         private router: Router,
         private activatedRoute: ActivatedRoute,

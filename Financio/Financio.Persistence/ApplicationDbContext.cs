@@ -9,6 +9,7 @@ namespace Financio.Persistence;
 public class ApplicationDbContext : DbContext
 {
     public DbSet<Account> Accounts { get; private set; } = null!;
+    public DbSet<AccountReference> References { get; private set; } = null!;
 
     public ApplicationDbContext() { }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
@@ -21,17 +22,22 @@ public class ApplicationDbContext : DbContext
             .Build();
 
         Debug.Write(configuration.ToString());
-        string connectionString = configuration["ConnectionStrings:DefaultConnection"];
+        string connectionString = configuration["ConnectionStrings:DefaultConnection"] ?? string.Empty;
 
         optionsBuilder.UseSqlServer(connectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Account>().HasData(
-            new Account { Number = "0140", Name = "Bank" },
-            new Account { Number = "0740", Name = "Eigenkapital" }
-            );
+        // modelBuilder.Entity<Account>()
+        //     .HasMany(a => a.CounterAccountReferences)
+        //     .WithMany(ar => ar.CounterAccounts)
+        //     .UsingEntity(
+        //         l => l.HasOne(typeof(AccountReference)).WithMany().OnDelete(DeleteBehavior.NoAction),
+        //         r => r.HasOne(typeof(Account)).WithMany().OnDelete(DeleteBehavior.NoAction)
+        //     );
+        
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 }
 

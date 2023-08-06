@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Account } from 'src/app/models/entities';
-import { AccountService } from '../../services/account.service';
+import { InMemoryAccountService } from '../../services/in-memory-account.service';
 import { AccountReference, AccountSide } from '../../models/entities';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap, Subscription } from 'rxjs';
@@ -24,7 +24,7 @@ export class AccountEditComponent implements OnInit, OnDestroy {
     private accountDetails!: AccountDetailsComponent;
 
     constructor(
-        private accountService: AccountService,
+        private accountService: InMemoryAccountService,
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private messageService: MessageService,

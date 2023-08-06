@@ -23,7 +23,8 @@
             </span>
         </ng-template>
         <ng-template pTemplate="right">
-            <button pButton label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="onNewAccount()"></button>
+            <button pButton label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                (click)="onNewAccount()"></button>
             <button pButton label="Edit" icon="pi pi-pencil" class="mr-2" [disabled]="!currentAccount"
                 (click)="onEditAccount()">
             </button>
@@ -52,7 +53,8 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="number" pResizableColumn style="width: 10rem">Number <p-sortIcon field="number">
+                    <th pSortableColumn="number" pResizableColumn style="width: 10rem">Number <p-sortIcon
+                            field="number">
                         </p-sortIcon>
                     </th>
                     <th pSortableColumn="name" pResizableColumn>Name <p-sortIcon field="name"></p-sortIcon>
@@ -72,9 +74,12 @@
                     <td>{{ account.number }}</td>
                     <td>{{ account.name }}</td>
                     <td>{{ account.description }}</td>
-                    <td>{{ account.getSumOfDebit() }}</td>
+                    <!-- <td>{{ account.getSumOfDebit() }}</td>
                     <td>{{ account.getSumOfCredit() }}</td>
-                    <td>{{ account.getSaldo() }}</td>
+                    <td>{{ account.getSaldo() }}</td> -->
+                    <td>&Nscr;</td>
+                    <td>&Nscr;</td>
+                    <td>&Nscr;</td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
